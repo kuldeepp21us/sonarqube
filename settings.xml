@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd" xmlns="http://maven.apache.org/SETTINGS/1.1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <proxies>
+        <proxy>
+            <active>true</active>
+            <protocol>http</protocol>
+             <host>isa-dev-proxy.gslb.db.com</host>
+            <port>8080</port>
+            <nonProxyHosts>localhost</nonProxyHosts>
+        </proxy>
+    </proxies>
+
+  <servers>
+    <server>
+      <username>dbgfms-releaser</username>
+      <password>AKCp5aTvR3fzytQBk2wc45p47fnr9VSoD2JmaLR1WhNJ2Wn1ezJApaTdCQ9TDj7hEasMSoSh8</password>
+      <id>gfms.releases</id>
+    </server>
+    <server>
+      <username>dbgfms-developer</username>
+      <password>AKCp5aTvR3fzyvMvTmX9CgSRxRt5RWPmCgxBNyZcuGjrDcV6XomURDePUdiU64N5zXnAcu2Bb</password>
+      <id>gfms.snapshots</id>
+    </server>
+  </servers>
+
+   <mirrors>
+        <mirror>
+            <id>gfms.releases</id>
+            <mirrorOf>*,!gfms.snapshots</mirrorOf>
+            <url>https://artifactory.intranet.db.com/artifactory/mvn-libs-release</url>
+        </mirror>
+   </mirrors> 
+
+  <profiles>   
+    <profile>
+
+      <id>artifactory</id>
+
+      <repositories>
+        <repository>
+          <id>gfms.releases</id>
+          <name>mvn-libs-release</name>
+          <url>https://artifactory.intranet.db.com/artifactory/mvn-libs-release</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+          </snapshots>
+          <id>gfms.snapshots</id>
+          <name>mvn-libs-snapshot</name>
+          <url>https://artifactory.intranet.db.com/artifactory/mvn-libs-snapshot</url>
+        </repository>
+      </repositories>
+      
+      <pluginRepositories>
+        <pluginRepository>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+          <id>gfms.releases</id>
+          <name>mvn-plugins-release</name>
+          <url>https://artifactory.intranet.db.com/artifactory/mvn-plugins-release</url>
+        </pluginRepository>
+        <pluginRepository>
+          <snapshots />
+          <id>gfms.snapshots</id>
+          <name>mvn-plugins-snapshot</name>
+          <url>https://artifactory.intranet.db.com/artifactory/mvn-plugins-snapshot</url>
+        </pluginRepository>
+      </pluginRepositories>
+      
+      <properties>
+        <artifactory.url.credentials>dbgfms-releaser:AKCp5aTvR3fzytQBk2wc45p47fnr9VSoD2JmaLR1WhNJ2Wn1ezJApaTdCQ9TDj7hEasMSoSh8</artifactory.url.credentials>
+      </properties>
+      
+    </profile>
+
+    <profile>
+
+     <id>sonar</id>
+		<properties>
+			<!-- ***** db-GFMS ***** -->
+			<sonar.login>9f03f8633d873dfe42004bf2225cedc80254c50b</sonar.login>
+			<sonar.password></sonar.password>
+			<sonar.host.url>https://sonar.sdlc.tools.intranet.db.com/</sonar.host.url> 
+			<sonar.scm.url>ssh://git@stash.gto.intranet.db.com:7999/gfms/gfms-app.git</sonar.scm.url>
+			<sonar.jacoco.reportPaths>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPaths>
+			<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		</properties>
+    </profile>
+
+  </profiles>
+  <activeProfiles>
+    <activeProfile>artifactory</activeProfile>
+  </activeProfiles>
+</settings>
